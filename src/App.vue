@@ -2,7 +2,7 @@
 import { UseTimeAgo } from "@vueuse/components";
 import { useIntervalFn } from "@vueuse/core";
 import { storeToRefs } from "pinia";
-import { onMounted, ref } from "vue";
+import { onMounted, ref, watch } from "vue";
 import DevicePreview from "@/components/DevicePreview.vue";
 import SimulatorControls from "@/components/SimulatorControls.vue";
 import { CardDescription } from "@/components/ui/card";
@@ -14,7 +14,7 @@ import { Table, TableBody, TableCell, TableRow } from "@/components/ui/table";
 import { useConfigStore } from "@/stores/config";
 
 const config = useConfigStore();
-const { server, mac, apiKey, mirrorMode } = storeToRefs(config);
+const { server, mac, apiKey, isRunning, mirrorMode } = storeToRefs(config);
 
 const intervalMs = ref(15 * 60 * 1000);
 const nextUpdate = ref<Date | null>(null);
@@ -104,6 +104,8 @@ async function update(force: boolean = false) {
 
 const { pause, resume, isActive } = useIntervalFn(update, intervalMs, { immediate: false });
 
+watch(isActive, (newVal) => (isRunning.value = newVal));
+
 async function start() {
   await update();
   resume();
@@ -115,7 +117,7 @@ async function next() {
 }
 
 onMounted(async () => {
-  if (server.value && mac.value && apiKey.value) {
+  if (isRunning.value && server.value && mac.value && apiKey.value) {
     await start();
   }
 });
