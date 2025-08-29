@@ -1,6 +1,12 @@
 <script setup lang="ts">
 import { storeToRefs } from "pinia";
 import PasswordViewInput from "@/components/PasswordViewInput.vue";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
 import { Button } from "@/components/ui/button";
 import Input from "@/components/ui/input/Input.vue";
 import { Label } from "@/components/ui/label";
@@ -11,7 +17,7 @@ import NextIcon from "~icons/material-symbols/skip-next-rounded";
 import StopIcon from "~icons/material-symbols/stop-rounded";
 
 const config = useConfigStore();
-const { server, mac, apiKey, mirrorMode } = storeToRefs(config);
+const { server, mac, apiKey, firmware, battery, rssi, mirrorMode } = storeToRefs(config);
 
 const props = defineProps<{ running?: boolean }>();
 
@@ -45,6 +51,26 @@ const emits = defineEmits<{
       <Switch id="mirror-mode" v-model="mirrorMode" />
       <Label for="mirror-mode">Mirror Mode</Label>
     </div>
+
+    <Accordion type="single" collapsible>
+      <AccordionItem value="1">
+        <AccordionTrigger>Advanced</AccordionTrigger>
+        <AccordionContent class="space-y-5">
+          <div class="space-y-2">
+            <Label for="firmware">Firmware</Label>
+            <Input id="firmware" v-model="firmware" placeholder="1.0.0" />
+          </div>
+          <div class="space-y-2">
+            <Label for="battery">Battery Voltage</Label>
+            <Input id="battery" type="number" v-model="battery" placeholder="4.2" />
+          </div>
+          <div class="space-y-2">
+            <Label for="rssi">WiFi RSSI</Label>
+            <Input id="rssi" type="number" v-model="rssi" placeholder="-45" />
+          </div>
+        </AccordionContent>
+      </AccordionItem>
+    </Accordion>
 
     <div class="flex flex-wrap gap-2 pt-1 justify-between">
       <Button v-if="!props.running" @click="emits('start')">

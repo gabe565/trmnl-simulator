@@ -14,7 +14,7 @@ import { Table, TableBody, TableCell, TableRow } from "@/components/ui/table";
 import { useConfigStore } from "@/stores/config";
 
 const config = useConfigStore();
-const { server, mac, apiKey, isRunning, mirrorMode } = storeToRefs(config);
+const { server, mac, apiKey, firmware, battery, rssi, isRunning, mirrorMode } = storeToRefs(config);
 
 const intervalMs = ref(15 * 60 * 1000);
 const nextUpdate = ref<Date | null>(null);
@@ -48,6 +48,8 @@ async function setupRequest(base: string) {
   return [mac.value, apiKey.value] as const;
 }
 
+type HeaderKey = "ID" | "Access-Token" | "Refresh-Rate" | "FW-Version" | "Battery-Voltage" | "RSSI";
+
 async function displayRequest(base: string, deviceId: string, key: string, force: boolean = false) {
   if (!base) throw new Error("Server is not populated.");
   if (!deviceId) throw new Error("MAC Address is not populated.");
@@ -60,14 +62,18 @@ async function displayRequest(base: string, deviceId: string, key: string, force
     wantStatus = 200;
   }
 
+  const headers: Partial<Record<HeaderKey, string>> = {
+    ID: deviceId,
+    "Access-Token": key,
+    "Refresh-Rate": (intervalMs.value / 1000).toFixed(),
+  };
+
+  if (firmware.value) headers["FW-Version"] = firmware.value;
+  if (battery.value) headers["Battery-Voltage"] = battery.value;
+  if (rssi.value) headers["RSSI"] = rssi.value;
+
   const url = new URL(path, ensureTrailingSlash(base));
-  const resp = await fetch(url, {
-    headers: {
-      ID: deviceId,
-      "Access-Token": key,
-      "Refresh-Rate": (intervalMs.value / 1000).toFixed(),
-    },
-  });
+  const resp = await fetch(url, { headers });
   if (resp.status !== 200) throw new Error(`Server sent an error response: ${resp.status}.`);
   const json = await resp.json();
   if (json.status !== wantStatus) {
