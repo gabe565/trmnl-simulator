@@ -48,14 +48,14 @@ async function setupRequest(base: string) {
   return [mac.value, apiKey.value] as const;
 }
 
-async function displayRequest(base: string, deviceId: string, key: string) {
+async function displayRequest(base: string, deviceId: string, key: string, force: boolean = false) {
   if (!base) throw new Error("Server is not populated.");
   if (!deviceId) throw new Error("MAC Address is not populated.");
   if (!key) throw new Error("API Key is not populated.");
 
   let path = "api/display";
   let wantStatus = 0;
-  if (mirrorMode.value) {
+  if (mirrorMode.value && !force) {
     path = "api/current_screen";
     wantStatus = 200;
   }
@@ -90,11 +90,11 @@ function noCacheImageURL(url: string, filename: string) {
   return u.toString();
 }
 
-async function update() {
+async function update(force: boolean = false) {
   console.log("Updating display...");
   try {
     const [deviceId, key] = await setupRequest(server.value);
-    await displayRequest(server.value, deviceId, key);
+    await displayRequest(server.value, deviceId, key, force);
   } catch (err) {
     console.error(err);
     alert(err);
@@ -106,6 +106,11 @@ const { pause, resume, isActive } = useIntervalFn(update, intervalMs, { immediat
 
 async function start() {
   await update();
+  resume();
+}
+
+async function next() {
+  await update(true);
   resume();
 }
 
@@ -135,7 +140,7 @@ onMounted(async () => {
               </CardDescription>
             </CardHeader>
             <CardContent>
-              <SimulatorControls :running="isActive" @start="start()" @stop="pause()" />
+              <SimulatorControls :running="isActive" @start="start" @stop="pause" @next="next" />
             </CardContent>
           </Card>
 

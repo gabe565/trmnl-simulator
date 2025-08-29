@@ -7,6 +7,7 @@ import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 import { useConfigStore } from "@/stores/config";
 import PlayIcon from "~icons/material-symbols/play-arrow-rounded";
+import NextIcon from "~icons/material-symbols/skip-next-rounded";
 import StopIcon from "~icons/material-symbols/stop-rounded";
 
 const config = useConfigStore();
@@ -17,6 +18,7 @@ const props = defineProps<{ running?: boolean }>();
 const emits = defineEmits<{
   (e: "start"): void;
   (e: "stop"): void;
+  (e: "next"): void;
 }>();
 </script>
 
@@ -44,7 +46,7 @@ const emits = defineEmits<{
       <Label for="mirror-mode">Mirror Mode</Label>
     </div>
 
-    <div class="flex flex-wrap gap-2 pt-1 justify-end">
+    <div class="flex flex-wrap gap-2 pt-1 justify-between">
       <Button v-if="!props.running" @click="emits('start')">
         <PlayIcon />
         Start
@@ -52,6 +54,10 @@ const emits = defineEmits<{
       <Button v-if="props.running" variant="secondary" @click="emits('stop')">
         <StopIcon />
         Stop
+      </Button>
+      <Button :disabled="!props.running" variant="outline" @click="emits('next')">
+        <NextIcon />
+        Next
       </Button>
     </div>
   </div>
