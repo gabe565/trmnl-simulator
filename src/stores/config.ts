@@ -9,6 +9,7 @@ export const useConfigStore = defineStore("config", {
     firmware: "",
     battery: 100,
     wifi: WifiOptions[0]?.label ?? "",
+    device: 0,
     isRunning: false,
     mirrorMode: false,
   }),
