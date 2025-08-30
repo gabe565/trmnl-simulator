@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { storeToRefs } from "pinia";
 import PasswordViewInput from "@/components/PasswordViewInput.vue";
+import InputSelect from "@/components/InputSelect.vue";
 import {
   Accordion,
   AccordionContent,
@@ -10,14 +11,16 @@ import {
 import { Button } from "@/components/ui/button";
 import Input from "@/components/ui/input/Input.vue";
 import { Label } from "@/components/ui/label";
+import { Slider } from "@/components/ui/slider";
 import { Switch } from "@/components/ui/switch";
+import { Options as WifiOptions } from "@/data/wifi.ts";
 import { useConfigStore } from "@/stores/config";
 import PlayIcon from "~icons/material-symbols/play-arrow-rounded";
 import NextIcon from "~icons/material-symbols/skip-next-rounded";
 import StopIcon from "~icons/material-symbols/stop-rounded";
 
 const config = useConfigStore();
-const { server, mac, apiKey, firmware, battery, rssi, mirrorMode } = storeToRefs(config);
+const { server, mac, apiKey, firmware, battery, wifi, mirrorMode } = storeToRefs(config);
 
 const props = defineProps<{ running?: boolean }>();
 
@@ -57,16 +60,28 @@ const emits = defineEmits<{
         <AccordionTrigger>Advanced</AccordionTrigger>
         <AccordionContent class="space-y-5">
           <div class="space-y-2">
-            <Label for="firmware">Firmware</Label>
+            <Label for="battery">Battery Percentage</Label>
+            <Slider
+              id="battery"
+              :model-value="[battery]"
+              @update:model-value="battery = $event![0]"
+              :min="1"
+              :max="100"
+            />
+            <div class="flex justify-center">{{ battery }}%</div>
+          </div>
+          <div class="space-y-2">
+            <Label for="rssi">WiFi Signal Strength</Label>
+            <InputSelect
+              id="rssi"
+              v-model="wifi"
+              :options="WifiOptions.map((v) => v.label)"
+              class="w-full"
+            />
+          </div>
+          <div class="space-y-2">
+            <Label for="firmware">Firmware Version</Label>
             <Input id="firmware" v-model="firmware" placeholder="1.0.0" />
-          </div>
-          <div class="space-y-2">
-            <Label for="battery">Battery Voltage</Label>
-            <Input id="battery" type="number" v-model="battery" placeholder="4.2" />
-          </div>
-          <div class="space-y-2">
-            <Label for="rssi">WiFi RSSI</Label>
-            <Input id="rssi" type="number" v-model="rssi" placeholder="-45" />
           </div>
         </AccordionContent>
       </AccordionItem>

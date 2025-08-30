@@ -11,10 +11,12 @@ import CardContent from "@/components/ui/card/CardContent.vue";
 import CardHeader from "@/components/ui/card/CardHeader.vue";
 import CardTitle from "@/components/ui/card/CardTitle.vue";
 import { Table, TableBody, TableCell, TableRow } from "@/components/ui/table";
+import { PercentageToVoltage } from "@/data/battery.ts";
+import { Options as WifiOptions } from "@/data/wifi.ts";
 import { useConfigStore } from "@/stores/config";
 
 const config = useConfigStore();
-const { server, mac, apiKey, firmware, battery, rssi, isRunning, mirrorMode } = storeToRefs(config);
+const { server, mac, apiKey, firmware, battery, wifi, isRunning, mirrorMode } = storeToRefs(config);
 
 const intervalMs = ref(15 * 60 * 1000);
 const nextUpdate = ref<Date | null>(null);
@@ -69,8 +71,13 @@ async function displayRequest(base: string, deviceId: string, key: string, force
   };
 
   if (firmware.value) headers["FW-Version"] = firmware.value;
-  if (battery.value) headers["Battery-Voltage"] = battery.value;
-  if (rssi.value) headers["RSSI"] = rssi.value;
+  if (battery.value) headers["Battery-Voltage"] = PercentageToVoltage(battery.value).toString();
+  if (wifi.value) {
+    const match = WifiOptions.find(({ label }) => label === wifi.value);
+    if (match) {
+      headers["RSSI"] = match.value;
+    }
+  }
 
   const url = new URL(path, ensureTrailingSlash(base));
   const resp = await fetch(url, { headers });
@@ -168,11 +175,11 @@ onMounted(async () => {
                   <TableCell>Next Update</TableCell>
                   <TableCell>
                     <UseTimeAgo
-                        v-slot="{ timeAgo }"
-                        :time="nextUpdate"
-                        v-if="nextUpdate"
-                        :show-second="true"
-                        :update-interval="1000"
+                      v-slot="{ timeAgo }"
+                      :time="nextUpdate"
+                      v-if="nextUpdate"
+                      :show-second="true"
+                      :update-interval="1000"
                     >
                       {{ timeAgo }}
                     </UseTimeAgo>
