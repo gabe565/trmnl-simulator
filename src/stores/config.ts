@@ -1,4 +1,5 @@
 import { defineStore } from "pinia";
+import { Options as WifiOptions } from "@/data/wifi.ts";
 
 export const useConfigStore = defineStore("config", {
   state: () => ({
@@ -6,8 +7,8 @@ export const useConfigStore = defineStore("config", {
     mac: "",
     apiKey: "",
     firmware: "",
-    battery: "",
-    rssi: "",
+    battery: 100,
+    wifi: WifiOptions[0]?.label ?? "",
     isRunning: false,
     mirrorMode: false,
   }),
