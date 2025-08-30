@@ -5,7 +5,7 @@ import { onMounted, ref, watch } from "vue";
 import DevicePreview from "@/components/DevicePreview.vue";
 import InfoCard from "@/components/InfoCard.vue";
 import SimulatorControls from "@/components/SimulatorControls.vue";
-import { CardDescription } from "@/components/ui/card";
+import { CardAction, CardDescription } from "@/components/ui/card";
 import Card from "@/components/ui/card/Card.vue";
 import CardContent from "@/components/ui/card/CardContent.vue";
 import CardHeader from "@/components/ui/card/CardHeader.vue";
@@ -13,6 +13,7 @@ import CardTitle from "@/components/ui/card/CardTitle.vue";
 import { PercentageToVoltage } from "@/data/battery.ts";
 import { Options as WifiOptions } from "@/data/wifi.ts";
 import { useConfigStore } from "@/stores/config";
+import SettingsIcon from "~icons/material-symbols/settings-rounded";
 
 const config = useConfigStore();
 const { server, mac, apiKey, firmware, battery, wifi, isRunning, mirrorMode } = storeToRefs(config);
@@ -147,7 +148,10 @@ onMounted(async () => {
         <aside class="space-y-5">
           <Card>
             <CardHeader>
-              <CardTitle>Server Settings</CardTitle>
+              <CardTitle> Server Settings </CardTitle>
+              <CardAction>
+                <SettingsIcon />
+              </CardAction>
               <CardDescription>
                 If API Key is not specified, MAC Address will passed to the
                 <code>/api/setup</code> endpoint to retrieve it.

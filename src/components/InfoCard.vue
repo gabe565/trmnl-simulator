@@ -4,7 +4,9 @@ import CardContent from "./ui/card/CardContent.vue";
 import CardHeader from "./ui/card/CardHeader.vue";
 import CardTitle from "./ui/card/CardTitle.vue";
 import { UseTimeAgo } from "@vueuse/components";
+import { CardAction } from "@/components/ui/card";
 import { Table, TableBody, TableCell, TableRow } from "@/components/ui/table";
+import InfoIcon from "~icons/material-symbols/info-rounded";
 
 defineProps<{
   nextUpdate: Date | null;
@@ -15,6 +17,9 @@ defineProps<{
   <Card>
     <CardHeader>
       <CardTitle>Info</CardTitle>
+      <CardAction>
+        <InfoIcon />
+      </CardAction>
     </CardHeader>
     <CardContent>
       <Table>
