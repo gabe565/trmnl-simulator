@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { storeToRefs } from "pinia";
-import PasswordViewInput from "@/components/PasswordViewInput.vue";
 import InputSelect from "@/components/InputSelect.vue";
+import PasswordViewInput from "@/components/PasswordViewInput.vue";
 import {
   Accordion,
   AccordionContent,
