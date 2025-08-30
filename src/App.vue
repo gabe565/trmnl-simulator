@@ -1,16 +1,15 @@
 <script setup lang="ts">
-import { UseTimeAgo } from "@vueuse/components";
 import { useIntervalFn } from "@vueuse/core";
 import { storeToRefs } from "pinia";
 import { onMounted, ref, watch } from "vue";
 import DevicePreview from "@/components/DevicePreview.vue";
+import InfoCard from "@/components/InfoCard.vue";
 import SimulatorControls from "@/components/SimulatorControls.vue";
 import { CardDescription } from "@/components/ui/card";
 import Card from "@/components/ui/card/Card.vue";
 import CardContent from "@/components/ui/card/CardContent.vue";
 import CardHeader from "@/components/ui/card/CardHeader.vue";
 import CardTitle from "@/components/ui/card/CardTitle.vue";
-import { Table, TableBody, TableCell, TableRow } from "@/components/ui/table";
 import { PercentageToVoltage } from "@/data/battery.ts";
 import { Options as WifiOptions } from "@/data/wifi.ts";
 import { useConfigStore } from "@/stores/config";
@@ -164,31 +163,7 @@ onMounted(async () => {
           <DevicePreview :image-src="imageSrc" />
         </main>
 
-        <Card>
-          <CardHeader>
-            <CardTitle>Info</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <Table>
-              <TableBody>
-                <TableRow>
-                  <TableCell>Next Update</TableCell>
-                  <TableCell>
-                    <UseTimeAgo
-                      v-slot="{ timeAgo }"
-                      :time="nextUpdate"
-                      v-if="nextUpdate"
-                      :show-second="true"
-                      :update-interval="1000"
-                    >
-                      {{ timeAgo }}
-                    </UseTimeAgo>
-                  </TableCell>
-                </TableRow>
-              </TableBody>
-            </Table>
-          </CardContent>
-        </Card>
+        <InfoCard :next-update="nextUpdate" />
       </div>
     </div>
   </div>
