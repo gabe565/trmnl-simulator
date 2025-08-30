@@ -151,37 +151,37 @@ onMounted(async () => {
               <SimulatorControls :running="isActive" @start="start" @stop="pause" @next="next" />
             </CardContent>
           </Card>
-
-          <Card>
-            <CardHeader>
-              <CardTitle>Info</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <Table>
-                <TableBody>
-                  <TableRow>
-                    <TableCell>Next Update</TableCell>
-                    <TableCell>
-                      <UseTimeAgo
-                        v-slot="{ timeAgo }"
-                        :time="nextUpdate"
-                        v-if="nextUpdate"
-                        :show-second="true"
-                        :update-interval="1000"
-                      >
-                        {{ timeAgo }}
-                      </UseTimeAgo>
-                    </TableCell>
-                  </TableRow>
-                </TableBody>
-              </Table>
-            </CardContent>
-          </Card>
         </aside>
 
         <main class="space-y-4">
           <DevicePreview :image-src="imageSrc" />
         </main>
+
+        <Card>
+          <CardHeader>
+            <CardTitle>Info</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <Table>
+              <TableBody>
+                <TableRow>
+                  <TableCell>Next Update</TableCell>
+                  <TableCell>
+                    <UseTimeAgo
+                        v-slot="{ timeAgo }"
+                        :time="nextUpdate"
+                        v-if="nextUpdate"
+                        :show-second="true"
+                        :update-interval="1000"
+                    >
+                      {{ timeAgo }}
+                    </UseTimeAgo>
+                  </TableCell>
+                </TableRow>
+              </TableBody>
+            </Table>
+          </CardContent>
+        </Card>
       </div>
     </div>
   </div>
