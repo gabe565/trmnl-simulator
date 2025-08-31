@@ -4,7 +4,7 @@ import { computed, ref } from "vue";
 import TrmnlLogo from "@/assets/trmnl-logo.svg?raw";
 import { Button } from "@/components/ui/button";
 import { Colors } from "@/data/device.ts";
-import { useConfigStore } from "@/stores/config.ts";
+import { useConfigStore } from "@/stores/config";
 import FullscreenIcon from "~icons/material-symbols/fullscreen-rounded";
 
 const config = useConfigStore();
@@ -15,7 +15,7 @@ const screenRef = ref<HTMLImageElement | null>(null);
 const { toggle, isFullscreen } = useFullscreen(screenRef);
 
 const bgStyle = computed(() => ({
-  "background-color": Colors[config.device].color,
+  "background-color": Colors[config.device]?.color,
 }));
 </script>
 

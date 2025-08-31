@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { storeToRefs } from "pinia";
 import InputSelect from "@/components/InputSelect.vue";
 import PasswordViewInput from "@/components/PasswordViewInput.vue";
 import {
@@ -14,7 +13,7 @@ import { Label } from "@/components/ui/label";
 import { Slider } from "@/components/ui/slider";
 import { Switch } from "@/components/ui/switch";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
-import { Colors } from "@/data/device";
+import { Colors } from "@/data/device.ts";
 import { Options as WifiOptions } from "@/data/wifi.ts";
 import { useConfigStore } from "@/stores/config";
 import PlayIcon from "~icons/material-symbols/play-arrow-rounded";
@@ -22,7 +21,6 @@ import NextIcon from "~icons/material-symbols/skip-next-rounded";
 import StopIcon from "~icons/material-symbols/stop-rounded";
 
 const config = useConfigStore();
-const { server, mac, apiKey, firmware, battery, wifi, mirrorMode, device } = storeToRefs(config);
 
 const props = defineProps<{ running?: boolean }>();
 
@@ -37,23 +35,23 @@ const emits = defineEmits<{
   <div class="space-y-5">
     <div class="space-y-2">
       <Label for="server">Server</Label>
-      <Input id="server" v-model="server" placeholder="https://trmnl.app" />
+      <Input id="server" v-model="config.server" placeholder="https://trmnl.app" />
     </div>
     <div class="space-y-2">
       <Label for="mac">MAC Address</Label>
-      <PasswordViewInput id="mac" v-model="mac" placeholder="00:11:22:33:44:55" masked />
+      <PasswordViewInput id="mac" v-model="config.mac" placeholder="00:11:22:33:44:55" masked />
     </div>
     <div class="space-y-2">
       <Label for="api-key">API Key</Label>
       <PasswordViewInput
         id="api-key"
-        v-model="apiKey"
+        v-model="config.apiKey"
         placeholder="Leave blank to auto-retrieve"
         masked
       />
     </div>
     <div class="flex items-center space-x-2">
-      <Switch id="mirror-mode" v-model="mirrorMode" />
+      <Switch id="mirror-mode" v-model="config.mirrorMode" />
       <Label for="mirror-mode">Mirror Mode</Label>
     </div>
 
@@ -70,8 +68,8 @@ const emits = defineEmits<{
                     <button
                       class="w-5 h-5 rounded-full transition-all outline-0 outline-gray-400 outline-offset-2 hover:outline-2 data-[active=true]:outline-2 data-[active=true]:outline-gray-200"
                       :style="{ 'background-color': color.color }"
-                      @click="device = k"
-                      :data-active="device === k"
+                      @click="config.device = k"
+                      :data-active="config.device === k"
                     />
                   </TooltipTrigger>
                   <TooltipContent side="bottom">{{ color.name }}</TooltipContent>
@@ -84,25 +82,25 @@ const emits = defineEmits<{
             <Label for="battery">Battery Percentage</Label>
             <Slider
               id="battery"
-              :model-value="[battery]"
-              @update:model-value="battery = $event![0]"
+              :model-value="[config.battery]"
+              @update:model-value="config.battery = $event![0]"
               :min="1"
               :max="100"
             />
-            <div class="flex justify-center">{{ battery }}%</div>
+            <div class="flex justify-center">{{ config.battery }}%</div>
           </div>
           <div class="space-y-2">
             <Label for="rssi">WiFi Signal Strength</Label>
             <InputSelect
               id="rssi"
-              v-model="wifi"
+              v-model="config.wifi"
               :options="WifiOptions.map((v) => v.label)"
               class="w-full"
             />
           </div>
           <div class="space-y-2">
             <Label for="firmware">Firmware Version</Label>
-            <Input id="firmware" v-model="firmware" placeholder="1.0.0" />
+            <Input id="firmware" v-model="config.firmware" placeholder="1.0.0" />
           </div>
         </AccordionContent>
       </AccordionItem>

@@ -9,7 +9,7 @@ import { Table, TableBody, TableCell, TableRow } from "@/components/ui/table";
 import InfoIcon from "~icons/material-symbols/info-rounded";
 
 defineProps<{
-  nextUpdate: Date | null;
+  nextUpdate?: Date;
 }>();
 </script>
 
