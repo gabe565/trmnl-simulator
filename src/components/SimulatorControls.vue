@@ -94,7 +94,6 @@ const emits = defineEmits<{
               id="rssi"
               v-model="config.wifi"
               :options="WifiOptions.map((v) => v.label)"
-              class="w-full"
             />
           </div>
           <div class="space-y-2">
