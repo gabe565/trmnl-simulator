@@ -12,7 +12,7 @@ export const useConfigStore = defineStore("config", {
     wifi: WifiOptions[0]?.label ?? "",
     device: 0,
     isRunning: false,
-    mirrorMode: false,
+    mirrorMode: true,
   }),
   persist: true,
 });
