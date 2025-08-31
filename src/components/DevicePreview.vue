@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { useFullscreen } from "@vueuse/core";
 import { ref } from "vue";
+import setupLogo from "@/assets/setup-logo.png";
 import TrmnlLogo from "@/assets/trmnl-logo.svg?raw";
 import { Button } from "@/components/ui/button";
 import { Colors } from "@/sdk/trmnl";
@@ -37,9 +38,8 @@ const { toggle, isFullscreen } = useFullscreen(screenRef);
       class="aspect-5/3 w-full bg-[#f7f7f7] rounded-sm overflow-hidden inset-shadow-[0_5px_70px_rgba(0,0,0,0.25)]"
     >
       <img
-        v-if="props.imageSrc"
         ref="screenRef"
-        :src="props.imageSrc"
+        :src="props.imageSrc || setupLogo"
         alt="TRMNL Screen"
         :class="{ 'mix-blend-multiply': !isFullscreen }"
       />
