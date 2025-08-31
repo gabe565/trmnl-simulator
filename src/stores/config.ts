@@ -7,7 +7,7 @@ export const useConfigStore = defineStore("config", {
     mac: "",
     apiKey: "",
     firmware: "",
-    model: "",
+    model: "og_png",
     battery: 100,
     wifi: WifiOptions[0]?.label ?? "",
     device: 0,

@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import InputSelect from "@/components/InputSelect.vue";
+import ModelSelect from "@/components/ModelSelect.vue";
 import PasswordViewInput from "@/components/PasswordViewInput.vue";
 import {
   Accordion,
@@ -102,7 +103,7 @@ const emits = defineEmits<{
           </div>
           <div class="space-y-2">
             <Label for="model">Model</Label>
-            <Input id="model" v-model="config.model" placeholder="og" />
+            <ModelSelect id="model" v-model="config.model" />
           </div>
         </AccordionContent>
       </AccordionItem>

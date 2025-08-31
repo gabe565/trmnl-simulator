@@ -34,7 +34,7 @@ const normalized = computed(() =>
 </script>
 
 <template>
-  <div class="flex gap-2">
+  <div class="flex">
     <Select v-model="model">
       <SelectTrigger v-bind="$attrs" class="w-full">
         <SelectValue :placeholder="placeholder" />
@@ -45,8 +45,9 @@ const normalized = computed(() =>
         </SelectItem>
       </SelectContent>
     </Select>
-    <Button variant="ghost" size="icon" @click="model = undefined" :disabled="!model">
+    <Button variant="ghost" size="icon" @click="model = undefined" :disabled="!model" class="ml-1">
       <CloseIcon />
     </Button>
+    <slot name="append" />
   </div>
 </template>
