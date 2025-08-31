@@ -17,6 +17,7 @@ export const useDeviceStore = defineStore("device", {
     const imageURL = ref<string | undefined>(undefined);
     const nextUpdate = ref<Date | undefined>(undefined);
     const intervalMs = ref(15 * 60 * 1000);
+    const error = ref<any>(undefined);
 
     const config = useConfigStore();
 
@@ -105,14 +106,15 @@ export const useDeviceStore = defineStore("device", {
 
     const update = async (force: boolean = false) => {
       console.log("Updating display...");
+      error.value = undefined;
       try {
         const [deviceId, key] = await doSetup(config.server);
         await doDisplay(config.server, deviceId, key, force);
-        if (!isActive) resume();
+        if (!isActive.value) resume();
       } catch (err) {
         console.error(err);
-        alert(err);
-        if (isActive) stop();
+        error.value = err;
+        if (isActive.value) stop();
       }
     };
 
@@ -126,6 +128,7 @@ export const useDeviceStore = defineStore("device", {
       intervalMs,
       update,
       stop: pause,
+      error,
     };
   },
 });
