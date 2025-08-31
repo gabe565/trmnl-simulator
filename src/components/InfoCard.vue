@@ -25,8 +25,8 @@ defineProps<{
       <Table>
         <TableBody>
           <TableRow>
-            <TableCell>Next Update</TableCell>
-            <TableCell>
+            <TableCell class="w-1/2">Next Update</TableCell>
+            <TableCell class="w-1/2">
               <UseTimeAgo
                 v-slot="{ timeAgo }"
                 :time="nextUpdate"
@@ -36,6 +36,7 @@ defineProps<{
               >
                 {{ timeAgo }}
               </UseTimeAgo>
+              <template v-else>-</template>
             </TableCell>
           </TableRow>
         </TableBody>

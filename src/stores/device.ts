@@ -122,12 +122,18 @@ export const useDeviceStore = defineStore("device", {
 
     watch(isActive, (v) => (config.isRunning = v));
 
+    const stop = () => {
+      pause();
+      nextUpdate.value = undefined;
+      intervalMs.value = 0;
+    };
+
     return {
       imageURL,
       nextUpdate,
       intervalMs,
       update,
-      stop: pause,
+      stop,
       error,
     };
   },
