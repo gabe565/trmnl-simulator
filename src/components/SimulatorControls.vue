@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import BatterySlider from "@/components/BatterySlider.vue";
 import InputSelect from "@/components/InputSelect.vue";
 import ModelSelect from "@/components/ModelSelect.vue";
 import PasswordViewInput from "@/components/PasswordViewInput.vue";
@@ -11,7 +12,6 @@ import {
 import { Button } from "@/components/ui/button";
 import Input from "@/components/ui/input/Input.vue";
 import { Label } from "@/components/ui/label";
-import { Slider } from "@/components/ui/slider";
 import { Switch } from "@/components/ui/switch";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { Colors, WifiOptions } from "@/sdk/trmnl";
@@ -80,14 +80,7 @@ const emits = defineEmits<{
 
           <div class="space-y-2">
             <Label for="battery">Battery Percentage</Label>
-            <Slider
-              id="battery"
-              :model-value="[config.battery]"
-              @update:model-value="config.battery = $event![0]"
-              :min="1"
-              :max="100"
-            />
-            <div class="flex justify-center">{{ config.battery }}%</div>
+            <BatterySlider v-model="config.battery" />
           </div>
           <div class="space-y-2">
             <Label for="rssi">WiFi Signal Strength</Label>
