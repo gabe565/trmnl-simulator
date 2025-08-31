@@ -20,6 +20,7 @@ const { toggle, isFullscreen } = useFullscreen(screenRef);
   <div
     class="relative rounded-lg mx-auto max-w-[800px] p-[3.4%] pt-[3.3%] pb-[7.6%] transition-all"
     :style="{ 'background-color': Colors[config.device]?.color }"
+    @dblclick="toggle"
   >
     <Button
       @click="toggle"
@@ -35,7 +36,7 @@ const { toggle, isFullscreen } = useFullscreen(screenRef);
       <div class="w-[15%] fill-black opacity-15" v-html="TrmnlLogo" />
     </div>
     <div
-      class="aspect-5/3 w-full bg-[#f7f7f7] rounded-sm overflow-hidden inset-shadow-[0_5px_70px_rgba(0,0,0,0.25)]"
+      class="aspect-5/3 w-full bg-[#f7f7f7] rounded-sm overflow-hidden inset-shadow-[0_5px_70px_rgba(0,0,0,0.25)] select-none"
     >
       <img
         ref="screenRef"
