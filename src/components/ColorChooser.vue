@@ -11,7 +11,7 @@ const model = defineModel<number>();
       <Tooltip v-for="(color, k) in Colors" :key="color.label">
         <TooltipTrigger as-child>
           <button
-            class="w-5 h-5 rounded-full transition-all outline-0 outline-gray-400 outline-offset-2 hover:outline-2 data-[active=true]:outline-2 data-[active=true]:outline-gray-200"
+            class="size-6 rounded-full transition-all border-2 hover:border-gray-400 dark:border-gray-600 dark:hover:border-gray-300 outline-gray-500 dark:outline-gray-300 data-[active=true]:outline-offset-1 data-[active=true]:border-0 data-[active=true]:outline-2"
             :style="{ 'background-color': color.color }"
             @click="model = k"
             :data-active="model === k"

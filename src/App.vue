@@ -1,20 +1,21 @@
 <script setup lang="ts">
 import { onMounted } from "vue";
 import DevicePreview from "@/components/DevicePreview.vue";
+import GitHubButton from "@/components/GitHubButton.vue";
 import InfoCard from "@/components/InfoCard.vue";
 import SimulatorControls from "@/components/SimulatorControls.vue";
+import ThemeSelector from "@/components/ThemeSelector.vue";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
-import { Button } from "@/components/ui/button";
 import { CardAction } from "@/components/ui/card";
 import Card from "@/components/ui/card/Card.vue";
 import CardContent from "@/components/ui/card/CardContent.vue";
 import CardHeader from "@/components/ui/card/CardHeader.vue";
 import CardTitle from "@/components/ui/card/CardTitle.vue";
+import { TooltipProvider } from "@/components/ui/tooltip";
 import { useConfigStore } from "@/stores/config.ts";
 import { useDeviceStore } from "@/stores/device.ts";
 import ErrorIcon from "~icons/material-symbols/error-rounded";
 import SettingsIcon from "~icons/material-symbols/settings-rounded";
-import GitHubIcon from "~icons/simple-icons/github";
 
 const config = useConfigStore();
 const device = useDeviceStore();
@@ -35,16 +36,10 @@ onMounted(async () => {
           <p class="text-muted-foreground text-sm">Simulate a TRMNL device in your browser.</p>
         </header>
 
-        <Button
-          as="a"
-          href="https://github.com/gabe565/trmnl-simulator"
-          target="_blank"
-          variant="ghost"
-          size="icon"
-          class="rounded-full"
-        >
-          <GitHubIcon />
-        </Button>
+        <TooltipProvider>
+          <ThemeSelector />
+          <GitHubButton />
+        </TooltipProvider>
       </div>
 
       <Alert v-if="device.error" variant="destructive">
