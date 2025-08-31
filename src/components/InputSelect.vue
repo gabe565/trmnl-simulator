@@ -17,6 +17,7 @@ const model = defineModel<string>();
 const props = withDefaults(
   defineProps<{
     options: Option[];
+    id?: string;
     clearable?: boolean;
     placeholder?: string;
   }>(),
@@ -36,7 +37,7 @@ const normalized = computed(() =>
 <template>
   <div class="flex">
     <Select v-model="model">
-      <SelectTrigger v-bind="$attrs" class="w-full">
+      <SelectTrigger :id="id" v-bind="$attrs" class="w-full">
         <SelectValue :placeholder="placeholder" />
       </SelectTrigger>
       <SelectContent>
