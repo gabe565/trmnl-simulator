@@ -7,18 +7,21 @@ const model = defineModel<number>();
 
 <template>
   <TooltipProvider>
-    <div class="flex space-x-3">
+    <fieldset class="flex space-x-3">
       <Tooltip v-for="(color, k) in Colors" :key="color.label">
         <TooltipTrigger as-child>
-          <button
-            class="size-6 rounded-full transition-all border-2 hover:border-gray-400 dark:border-gray-600 dark:hover:border-gray-300 outline-gray-500 dark:outline-gray-300 data-[active=true]:outline-offset-1 data-[active=true]:border-0 data-[active=true]:outline-2"
+          <input
+            type="radio"
+            class="appearance-none cursor-pointer size-6 rounded-full transition-all border-2 hover:border-gray-400 dark:border-gray-600 dark:hover:border-gray-300 outline-gray-500 dark:outline-gray-300 checked:outline-offset-1 checked:border-0 checked:outline-2"
             :style="{ 'background-color': color.color }"
-            @click="model = k"
-            :data-active="model === k"
+            @change="model = k"
+            name="color"
+            :value="color.label"
+            :checked="model === k"
           />
         </TooltipTrigger>
         <TooltipContent side="bottom">{{ color.label }}</TooltipContent>
       </Tooltip>
-    </div>
+    </fieldset>
   </TooltipProvider>
 </template>

@@ -73,10 +73,10 @@ const emits = defineEmits<{
         <AccordionItem value="1">
           <AccordionTrigger>Advanced</AccordionTrigger>
           <AccordionContent class="space-y-5 mx-1">
-            <div class="space-y-2">
-              <Label>Device Color</Label>
+            <fieldset class="space-y-2">
+              <Label as="legend">Device Color</Label>
               <ColorChooser v-model="config.device" />
-            </div>
+            </fieldset>
 
             <div class="space-y-2">
               <Label for="battery">Battery Percentage</Label>
