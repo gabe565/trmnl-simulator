@@ -3,7 +3,7 @@ import { useFullscreen } from "@vueuse/core";
 import { computed, ref } from "vue";
 import TrmnlLogo from "@/assets/trmnl-logo.svg?raw";
 import { Button } from "@/components/ui/button";
-import { Colors } from "@/data/device.ts";
+import { Colors } from "@/sdk/trmnl";
 import { useConfigStore } from "@/stores/config";
 import FullscreenIcon from "~icons/material-symbols/fullscreen-rounded";
 

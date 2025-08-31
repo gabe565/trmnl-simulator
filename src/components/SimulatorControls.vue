@@ -13,8 +13,7 @@ import { Label } from "@/components/ui/label";
 import { Slider } from "@/components/ui/slider";
 import { Switch } from "@/components/ui/switch";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
-import { Colors } from "@/data/device.ts";
-import { Options as WifiOptions } from "@/data/wifi.ts";
+import { Colors, WifiOptions } from "@/sdk/trmnl";
 import { useConfigStore } from "@/stores/config";
 import PlayIcon from "~icons/material-symbols/play-arrow-rounded";
 import NextIcon from "~icons/material-symbols/skip-next-rounded";
@@ -63,7 +62,7 @@ const emits = defineEmits<{
             <Label>Device Color</Label>
             <TooltipProvider>
               <div class="flex space-x-3 pl-1">
-                <Tooltip v-for="(color, k) in Colors" :key="color.name">
+                <Tooltip v-for="(color, k) in Colors" :key="color.label">
                   <TooltipTrigger as-child>
                     <button
                       class="w-5 h-5 rounded-full transition-all outline-0 outline-gray-400 outline-offset-2 hover:outline-2 data-[active=true]:outline-2 data-[active=true]:outline-gray-200"
@@ -72,7 +71,7 @@ const emits = defineEmits<{
                       :data-active="config.device === k"
                     />
                   </TooltipTrigger>
-                  <TooltipContent side="bottom">{{ color.name }}</TooltipContent>
+                  <TooltipContent side="bottom">{{ color.label }}</TooltipContent>
                 </Tooltip>
               </div>
             </TooltipProvider>

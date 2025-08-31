@@ -1,5 +1,5 @@
 import { defineStore } from "pinia";
-import { Options as WifiOptions } from "@/data/wifi.ts";
+import { WifiOptions } from "@/sdk/trmnl";
 
 export const useConfigStore = defineStore("config", {
   state: () => ({

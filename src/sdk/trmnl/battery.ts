@@ -1,7 +1,7 @@
 export const MinBatteryVoltage = 3.0;
 export const MaxBatteryVoltage = 4.08;
 
-export const PercentageToVoltage = (percentage: number): number => {
+export const percentageToVoltage = (percentage: number): number => {
   // Clamp obvious edge cases
   if (percentage >= 100) return MaxBatteryVoltage; // defined "full charge"
   if (percentage >= 95) return 4.06; // midpoint of 85..88% block
