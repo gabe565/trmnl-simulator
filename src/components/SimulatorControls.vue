@@ -58,7 +58,7 @@ const emits = defineEmits<{
     <Accordion type="single" collapsible>
       <AccordionItem value="1">
         <AccordionTrigger>Advanced</AccordionTrigger>
-        <AccordionContent class="space-y-5">
+        <AccordionContent class="space-y-5 mx-1">
           <div class="space-y-2">
             <Label>Device Color</Label>
             <ColorChooser v-model="config.device" />

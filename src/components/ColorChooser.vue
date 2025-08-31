@@ -7,7 +7,7 @@ const model = defineModel<number>();
 
 <template>
   <TooltipProvider>
-    <div class="flex space-x-3 pl-1">
+    <div class="flex space-x-3">
       <Tooltip v-for="(color, k) in Colors" :key="color.label">
         <TooltipTrigger as-child>
           <button
