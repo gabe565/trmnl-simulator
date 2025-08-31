@@ -102,6 +102,10 @@ const emits = defineEmits<{
             <Label for="firmware">Firmware Version</Label>
             <Input id="firmware" v-model="config.firmware" placeholder="1.0.0" />
           </div>
+          <div class="space-y-2">
+            <Label for="model">Model</Label>
+            <Input id="model" v-model="config.model" placeholder="og" />
+          </div>
         </AccordionContent>
       </AccordionItem>
     </Accordion>

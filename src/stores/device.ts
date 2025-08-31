@@ -51,7 +51,8 @@ export const useDeviceStore = defineStore("device", {
       | "Refresh-Rate"
       | "FW-Version"
       | "Battery-Voltage"
-      | "RSSI";
+      | "RSSI"
+      | "Model";
 
     const doDisplay = async (
       base: string,
@@ -76,6 +77,7 @@ export const useDeviceStore = defineStore("device", {
         "Refresh-Rate": (intervalMs.value / 1000).toFixed(),
       };
 
+      if (config.model) headers["Model"] = config.model;
       if (config.firmware) headers["FW-Version"] = config.firmware;
       if (config.battery)
         headers["Battery-Voltage"] = PercentageToVoltage(config.battery).toString();
