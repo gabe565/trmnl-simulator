@@ -5,7 +5,7 @@ import InfoCard from "@/components/InfoCard.vue";
 import SimulatorControls from "@/components/SimulatorControls.vue";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
-import { CardAction, CardDescription } from "@/components/ui/card";
+import { CardAction } from "@/components/ui/card";
 import Card from "@/components/ui/card/Card.vue";
 import CardContent from "@/components/ui/card/CardContent.vue";
 import CardHeader from "@/components/ui/card/CardHeader.vue";
@@ -59,14 +59,10 @@ onMounted(async () => {
         <aside class="space-y-5">
           <Card>
             <CardHeader>
-              <CardTitle> Server Settings </CardTitle>
+              <CardTitle>Settings</CardTitle>
               <CardAction>
                 <SettingsIcon />
               </CardAction>
-              <CardDescription>
-                If API Key is not specified, MAC Address will passed to the
-                <code>/api/setup</code> endpoint to retrieve it.
-              </CardDescription>
             </CardHeader>
             <CardContent>
               <SimulatorControls

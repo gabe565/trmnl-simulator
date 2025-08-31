@@ -14,8 +14,10 @@ import { Button } from "@/components/ui/button";
 import Input from "@/components/ui/input/Input.vue";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { WifiOptions } from "@/sdk/trmnl";
 import { useConfigStore } from "@/stores/config";
+import InfoIcon from "~icons/material-symbols/info-rounded";
 import PlayIcon from "~icons/material-symbols/play-arrow-rounded";
 import NextIcon from "~icons/material-symbols/skip-next-rounded";
 import StopIcon from "~icons/material-symbols/stop-rounded";
@@ -32,75 +34,88 @@ const emits = defineEmits<{
 </script>
 
 <template>
-  <div class="space-y-5">
-    <div class="space-y-2">
-      <Label for="server">Server</Label>
-      <Input id="server" v-model="config.server" placeholder="https://trmnl.app" />
-    </div>
-    <div class="space-y-2">
-      <Label for="mac">MAC Address</Label>
-      <PasswordViewInput id="mac" v-model="config.mac" placeholder="00:11:22:33:44:55" masked />
-    </div>
-    <div class="space-y-2">
-      <Label for="api-key">API Key</Label>
-      <PasswordViewInput
-        id="api-key"
-        v-model="config.apiKey"
-        placeholder="Leave blank to auto-retrieve"
-        masked
-      />
-    </div>
-    <div class="flex items-center space-x-2">
-      <Switch id="mirror-mode" v-model="config.mirrorMode" />
-      <Label for="mirror-mode">Mirror Mode</Label>
-    </div>
+  <TooltipProvider>
+    <div class="space-y-5">
+      <div class="space-y-2">
+        <Label for="server">Server</Label>
+        <Input id="server" v-model="config.server" placeholder="https://trmnl.app" />
+      </div>
+      <div class="space-y-2">
+        <Label for="mac">MAC Address</Label>
+        <PasswordViewInput id="mac" v-model="config.mac" placeholder="00:11:22:33:44:55" masked />
+      </div>
+      <div class="space-y-2">
+        <div class="flex gap-2">
+          <Label for="api-key">API Key</Label>
+          <Tooltip>
+            <TooltipTrigger>
+              <sup><InfoIcon /></sup>
+            </TooltipTrigger>
+            <TooltipContent class="max-w-xs">
+              If API Key is not specified, MAC Address will be passed to the
+              <code>/api/setup</code> endpoint to retrieve it.
+            </TooltipContent>
+          </Tooltip>
+        </div>
+        <PasswordViewInput
+          id="api-key"
+          v-model="config.apiKey"
+          placeholder="Leave blank to auto-retrieve"
+          masked
+        />
+      </div>
+      <div class="flex items-center space-x-2">
+        <Switch id="mirror-mode" v-model="config.mirrorMode" />
+        <Label for="mirror-mode">Mirror Mode</Label>
+      </div>
 
-    <Accordion type="single" collapsible>
-      <AccordionItem value="1">
-        <AccordionTrigger>Advanced</AccordionTrigger>
-        <AccordionContent class="space-y-5 mx-1">
-          <div class="space-y-2">
-            <Label>Device Color</Label>
-            <ColorChooser v-model="config.device" />
-          </div>
+      <Accordion type="single" collapsible>
+        <AccordionItem value="1">
+          <AccordionTrigger>Advanced</AccordionTrigger>
+          <AccordionContent class="space-y-5 mx-1">
+            <div class="space-y-2">
+              <Label>Device Color</Label>
+              <ColorChooser v-model="config.device" />
+            </div>
 
-          <div class="space-y-2">
-            <Label for="battery">Battery Percentage</Label>
-            <BatterySlider v-model="config.battery" />
-          </div>
-          <div class="space-y-2">
-            <Label for="rssi">WiFi Signal Strength</Label>
-            <InputSelect
-              id="rssi"
-              v-model="config.wifi"
-              :options="WifiOptions.map((v) => v.label)"
-            />
-          </div>
-          <div class="space-y-2">
-            <Label for="firmware">Firmware Version</Label>
-            <Input id="firmware" v-model="config.firmware" placeholder="1.0.0" />
-          </div>
-          <div class="space-y-2">
-            <Label for="model">Model</Label>
-            <ModelSelect id="model" v-model="config.model" />
-          </div>
-        </AccordionContent>
-      </AccordionItem>
-    </Accordion>
+            <div class="space-y-2">
+              <Label for="battery">Battery Percentage</Label>
+              <BatterySlider v-model="config.battery" />
+            </div>
+            <div class="space-y-2">
+              <Label for="rssi">WiFi Signal Strength</Label>
+              <InputSelect
+                id="rssi"
+                v-model="config.wifi"
+                :options="WifiOptions.map((v) => v.label)"
+              />
+            </div>
+            <div class="space-y-2">
+              <Label for="firmware">Firmware Version</Label>
+              <Input id="firmware" v-model="config.firmware" placeholder="1.0.0" />
+            </div>
+            <div class="space-y-2">
+              <Label for="model">Model</Label>
+              <ModelSelect id="model" v-model="config.model" />
+            </div>
+          </AccordionContent>
+        </AccordionItem>
+      </Accordion>
 
-    <div class="flex flex-wrap gap-2 pt-1 justify-between">
-      <Button v-if="!props.running" @click="emits('start')">
-        <PlayIcon />
-        Start
-      </Button>
-      <Button v-if="props.running" variant="secondary" @click="emits('stop')">
-        <StopIcon />
-        Stop
-      </Button>
-      <Button :disabled="!props.running" variant="outline" @click="emits('next')">
-        <NextIcon />
-        Next
-      </Button>
+      <div class="flex flex-wrap gap-2 pt-1 justify-between">
+        <Button v-if="!props.running" @click="emits('start')">
+          <PlayIcon />
+          Start
+        </Button>
+        <Button v-if="props.running" variant="secondary" @click="emits('stop')">
+          <StopIcon />
+          Stop
+        </Button>
+        <Button :disabled="!props.running" variant="outline" @click="emits('next')">
+          <NextIcon />
+          Next
+        </Button>
+      </div>
     </div>
-  </div>
+  </TooltipProvider>
 </template>
