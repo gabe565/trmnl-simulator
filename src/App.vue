@@ -4,6 +4,7 @@ import DevicePreview from "@/components/DevicePreview.vue";
 import InfoCard from "@/components/InfoCard.vue";
 import SimulatorControls from "@/components/SimulatorControls.vue";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import { Button } from "@/components/ui/button";
 import { CardAction, CardDescription } from "@/components/ui/card";
 import Card from "@/components/ui/card/Card.vue";
 import CardContent from "@/components/ui/card/CardContent.vue";
@@ -13,6 +14,7 @@ import { useConfigStore } from "@/stores/config.ts";
 import { useDeviceStore } from "@/stores/device.ts";
 import ErrorIcon from "~icons/material-symbols/error-rounded";
 import SettingsIcon from "~icons/material-symbols/settings-rounded";
+import GitHubIcon from "~icons/simple-icons/github";
 
 const config = useConfigStore();
 const device = useDeviceStore();
@@ -27,10 +29,23 @@ onMounted(async () => {
 <template>
   <div class="min-h-dvh p-6 md:p-10">
     <div class="mx-auto max-w-6xl space-y-6">
-      <header>
-        <h1 class="text-2xl font-semibold">TRMNL Simulator</h1>
-        <p class="text-muted-foreground text-sm">Simulate a TRMNL device in your browser.</p>
-      </header>
+      <div class="flex">
+        <header class="flex-grow">
+          <h1 class="text-2xl font-semibold">TRMNL Simulator</h1>
+          <p class="text-muted-foreground text-sm">Simulate a TRMNL device in your browser.</p>
+        </header>
+
+        <Button
+          as="a"
+          href="https://github.com/gabe565/trmnl-simulator"
+          target="_blank"
+          variant="ghost"
+          size="icon"
+          class="rounded-full"
+        >
+          <GitHubIcon />
+        </Button>
+      </div>
 
       <Alert v-if="device.error" variant="destructive">
         <ErrorIcon />
