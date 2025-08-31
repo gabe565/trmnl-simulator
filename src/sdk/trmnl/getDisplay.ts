@@ -13,8 +13,8 @@ type HeaderKey =
 
 export interface DisplayParams {
   server: string;
-  device_id: string;
   api_key: string;
+  device_id?: string;
   intervalMs?: number;
   mirror?: boolean;
   firmware?: string;
@@ -38,7 +38,7 @@ export interface DisplayResponse {
 
 export const getDisplay = async (params: DisplayParams): Promise<DisplayResponse> => {
   if (!params.server) throw new Error("Server is required.");
-  if (!params.device_id) throw new Error("MAC Address is required.");
+  if (!params.device_id && !params.mirror) throw new Error("MAC Address is required.");
   if (!params.api_key) throw new Error("API Key is required.");
 
   let path = "api/display";
@@ -49,10 +49,10 @@ export const getDisplay = async (params: DisplayParams): Promise<DisplayResponse
   }
 
   const headers: Partial<Record<HeaderKey, string>> = {
-    ID: params.device_id,
     "Access-Token": params.api_key,
   };
 
+  if (params.device_id) headers["ID"] = params.device_id;
   if (params.model) headers["Model"] = params.model;
   if (params.intervalMs) headers["Refresh-Rate"] = (params.intervalMs / 1000).toFixed();
   if (params.firmware) headers["FW-Version"] = params.firmware;
