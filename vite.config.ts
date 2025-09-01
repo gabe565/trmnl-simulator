@@ -5,9 +5,6 @@ import { defineConfig } from 'vite'
 import Icons from 'unplugin-icons/vite'
 
 export default defineConfig({
-  server: {
-    allowedHosts: ['troubleshooting-around-terry-cordless.trycloudflare.com'],
-  },
   plugins: [vue(), tailwindcss(), Icons({ compiler: 'vue3' })],
   resolve: {
     alias: {
