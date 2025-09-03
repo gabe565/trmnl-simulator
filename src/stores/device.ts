@@ -4,12 +4,6 @@ import { ref, watch } from "vue";
 import { getDisplay, getSetup } from "@/sdk/trmnl";
 import { useConfigStore } from "@/stores/config.ts";
 
-const noCacheImageURL = (url: string, filename: string) => {
-  const u = new URL(url);
-  u.searchParams.set("cache", filename);
-  return u.toString();
-};
-
 export const useDeviceStore = defineStore("device", {
   state: () => {
     const imageURL = ref<string | undefined>(undefined);
@@ -41,9 +35,6 @@ export const useDeviceStore = defineStore("device", {
         });
 
         if (res.image_url) {
-          if (res.filename) {
-            res.image_url = noCacheImageURL(res.image_url, res.filename);
-          }
           imageURL.value = res.image_url;
           if (res.refresh_rate) intervalMs.value = res.refresh_rate * 1000;
           nextUpdate.value = res.next_update;
