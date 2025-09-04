@@ -10,7 +10,7 @@ import FullscreenIcon from "~icons/material-symbols/fullscreen-rounded";
 
 const config = useConfigStore();
 
-const props = withDefaults(defineProps<{ imageSrc?: string }>(), { imageSrc: "" });
+const props = defineProps<{ imageSrc?: string }>();
 
 const { toggle, isFullscreen } = useFullscreen(useTemplateRef("screen"));
 
