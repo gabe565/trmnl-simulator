@@ -7,7 +7,7 @@ const model = defineModel<number>();
 
 <template>
   <TooltipProvider>
-    <fieldset class="flex space-x-3">
+    <fieldset v-bind="$attrs" class="flex space-x-2">
       <Tooltip v-for="(color, k) in Colors" :key="color.label">
         <TooltipTrigger as-child>
           <input

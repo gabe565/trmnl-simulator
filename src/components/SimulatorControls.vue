@@ -68,20 +68,21 @@ const emits = defineEmits<{
         <Label for="model">Model</Label>
         <ModelSelect id="model" v-model="config.model" />
       </div>
-      <div class="flex items-center space-x-2">
-        <Switch id="mirror-mode" v-model="config.mirrorMode" />
-        <Label for="mirror-mode">Mirror Mode</Label>
+      <div class="flex flex-wrap items-center justify-between gap-4">
+        <div class="flex items-center space-x-2">
+          <Switch id="mirror-mode" v-model="config.mirrorMode" />
+          <Label for="mirror-mode">Mirror Mode</Label>
+        </div>
+        <fieldset>
+          <Label as="legend" class="sr-only">Device Color</Label>
+          <ColorChooser v-model="config.device" />
+        </fieldset>
       </div>
 
       <Accordion type="single" collapsible>
         <AccordionItem value="1">
           <AccordionTrigger>Advanced</AccordionTrigger>
           <AccordionContent class="space-y-5 mx-1">
-            <fieldset class="space-y-2">
-              <Label as="legend">Device Color</Label>
-              <ColorChooser v-model="config.device" />
-            </fieldset>
-
             <div class="space-y-2">
               <Label for="battery">Battery Percentage</Label>
               <BatterySlider v-model="config.battery" />
