@@ -5,41 +5,85 @@ import setupLogo from "@/assets/setup-logo.png";
 import TrmnlLogo from "@/assets/trmnl-logo.svg";
 import { Button } from "@/components/ui/button";
 import { Colors } from "@/sdk/trmnl";
+import { useCloudStore } from "@/stores/cloud";
 import { useConfigStore } from "@/stores/config";
 import FullscreenIcon from "~icons/material-symbols/fullscreen-rounded";
 
 const config = useConfigStore();
+const cloud = useCloudStore();
 
 const props = defineProps<{ imageSrc?: string }>();
 
 const { toggle, isFullscreen } = useFullscreen(useTemplateRef("screen"));
 
 const color = computed(() => Colors[config.device]);
-
 const imageSrc = computed(() => props.imageSrc || setupLogo);
+
+const SCREEN = { width: 800, height: 480, radius: 5 };
+const FRAME = { top: 25, sides: 25, bottom: 65, logoOffsetY: 42, radius: 10 };
+const LOGO = { width: 120, height: 30 };
+
+const screenAspectRatio = computed(() => {
+  const screen = cloud.models.find(({ name }) => name === config.model) ?? SCREEN;
+  return screen.width / screen.height;
+});
+
+const layout = computed(() => {
+  const screenWidth = SCREEN.width;
+  const screenHeight = Math.round(screenWidth / screenAspectRatio.value);
+
+  return {
+    frameWidth: screenWidth + FRAME.sides * 2,
+    frameHeight: screenHeight + FRAME.top + FRAME.bottom,
+    screenX: FRAME.sides,
+    screenY: FRAME.top,
+    screenWidth,
+    screenHeight,
+    logoWidth: LOGO.width,
+    logoHeight: LOGO.height,
+    logoX: (screenWidth + FRAME.sides * 2 - LOGO.width) / 2,
+    logoY: screenHeight + FRAME.logoOffsetY,
+    frameRadius: FRAME.radius,
+    screenRadius: SCREEN.radius,
+  };
+});
 </script>
 
 <template>
   <div class="relative w-full" @dblclick="toggle">
-    <svg viewBox="0 0 850 570">
+    <svg :viewBox="`0 0 ${layout.frameWidth} ${layout.frameHeight}`">
       <!-- Background -->
       <rect
         x="0"
         y="0"
-        width="850"
-        height="570"
-        rx="10"
-        ry="10"
+        :width="layout.frameWidth"
+        :height="layout.frameHeight"
+        :rx="layout.frameRadius"
+        :ry="layout.frameRadius"
         :fill="color?.color"
         class="transition-colors"
       />
 
       <!-- Logo -->
-      <TrmnlLogo href="#trmnl-logo" x="365" y="522" width="120" height="30" opacity="0.25" />
+      <TrmnlLogo
+        href="#trmnl-logo"
+        :x="layout.logoX"
+        :y="layout.logoY"
+        :width="layout.logoWidth"
+        :height="layout.logoHeight"
+        opacity="0.25"
+      />
 
       <!-- Screen -->
       <mask id="screen-mask" mask-type="alpha">
-        <rect x="25" y="25" width="800" height="480" rx="5" ry="5" />
+        <rect
+          :x="layout.screenX"
+          :y="layout.screenY"
+          :width="layout.screenWidth"
+          :height="layout.screenHeight"
+          :rx="layout.screenRadius"
+          :ry="layout.screenRadius"
+        />
       </mask>
       <filter id="inset-shadow">
         <!-- Shadow offset -->
@@ -55,10 +99,10 @@ const imageSrc = computed(() => props.imageSrc || setupLogo);
         <feComposite operator="over" in="shadow" in2="SourceGraphic" />
       </filter>
       <rect
-        x="25"
-        y="25"
-        width="800"
-        height="480"
+        :x="layout.screenX"
+        :y="layout.screenY"
+        :width="layout.screenWidth"
+        :height="layout.screenHeight"
         fill="#f7f7f7"
         filter="url(#inset-shadow)"
         mask="url(#screen-mask)"
@@ -67,10 +111,10 @@ const imageSrc = computed(() => props.imageSrc || setupLogo);
       <image
         ref="screenRef"
         :href="imageSrc"
-        x="25"
-        y="25"
-        width="800"
-        height="480"
+        :x="layout.screenX"
+        :y="layout.screenY"
+        :width="layout.screenWidth"
+        :height="layout.screenHeight"
         class="mix-blend-multiply"
         mask="url(#screen-mask)"
       />

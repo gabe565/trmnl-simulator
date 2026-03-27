@@ -31,6 +31,7 @@ export const useDeviceStore = defineStore("device", {
           firmware: config.firmware,
           intervalMs: intervalMs.value,
           mirror: config.mirrorMode && !force,
+          model: config.model,
           wifi: config.wifi,
         });
 
