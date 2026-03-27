@@ -12,7 +12,13 @@ const model = defineModel<string>();
 const cloud = useCloudStore();
 const device = useDeviceStore();
 
-const options = computed(() => cloud.models.map(({ label, name }) => ({ label, value: name })));
+const options = computed(() =>
+  cloud.models.map(({ label, name, width, height }) => ({
+    label,
+    value: name,
+    secondary: `${width}×${height}`,
+  })),
+);
 const loading = ref(false);
 
 onMounted(async () => {
