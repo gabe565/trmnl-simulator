@@ -24,7 +24,6 @@ const props = withDefaults(
   }>(),
   {
     placeholder: "Select…",
-    clearable: true,
   },
 );
 
@@ -58,7 +57,14 @@ const selectedOption = computed(() => normalized.value.find((opt) => opt.value =
         </SelectItem>
       </SelectContent>
     </Select>
-    <Button variant="ghost" size="icon" @click="model = undefined" :disabled="!model" class="ml-1">
+    <Button
+      variant="ghost"
+      size="icon"
+      @click="model = undefined"
+      :disabled="!model"
+      class="ml-1"
+      v-if="clearable"
+    >
       <CloseIcon />
     </Button>
     <slot name="append" />

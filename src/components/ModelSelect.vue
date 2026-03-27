@@ -41,9 +41,9 @@ const update = async () => {
 </script>
 
 <template>
-  <InputSelect v-model="model" :options="options" :disabled="loading" class="w-full" clearable>
+  <InputSelect v-model="model" :options="options" :disabled="loading" class="w-full">
     <template #append>
-      <Button @click="update" variant="ghost" size="icon">
+      <Button @click="update" variant="ghost" size="icon" class="ml-1">
         <RefreshIcon :class="{ 'animate-spin': loading }" />
       </Button>
     </template>
