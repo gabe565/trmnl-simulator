@@ -64,6 +64,10 @@ const emits = defineEmits<{
           masked
         />
       </div>
+      <div class="space-y-2">
+        <Label for="model">Model</Label>
+        <ModelSelect id="model" v-model="config.model" />
+      </div>
       <div class="flex items-center space-x-2">
         <Switch id="mirror-mode" v-model="config.mirrorMode" />
         <Label for="mirror-mode">Mirror Mode</Label>
@@ -93,10 +97,6 @@ const emits = defineEmits<{
             <div class="space-y-2">
               <Label for="firmware">Firmware Version</Label>
               <Input id="firmware" v-model="config.firmware" placeholder="1.0.0" />
-            </div>
-            <div class="space-y-2">
-              <Label for="model">Model</Label>
-              <ModelSelect id="model" v-model="config.model" />
             </div>
           </AccordionContent>
         </AccordionItem>
